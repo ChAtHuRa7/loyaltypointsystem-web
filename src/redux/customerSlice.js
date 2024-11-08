@@ -1,9 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createCustomer } from "../apis/CustomerApi";
+import { createCustomer, getCustomers } from "../apis/CustomerApi";
 
 export const addCustomer = createAsyncThunk('customers/add', async (customer) => {
-    console.log(customer);
     return await createCustomer(customer);
+})
+
+export const fetchCustomers = createAsyncThunk('customers/fetch', async () => {
+  return await getCustomers();
 })
 
 
@@ -41,6 +44,22 @@ const customerSlice = createSlice({
         .addCase(addCustomer.rejected, (state, action) => {
             state.loading.addCustomer = false;
             state.error.addCustomer = action.error;
+        })
+
+        //fetch  customers
+        builder
+        .addCase(fetchCustomers.pending, (state) => {
+            state.loading.fetchUCustomer = true;
+            state.error.fetchUCustomer = null;
+        })
+        .addCase(fetchCustomers.fulfilled, (state, action) => {
+            state.loading.fetchUCustomer = false;
+            state.error.fetchUCustomer = null;
+            state.customers = action.payload;
+        })
+        .addCase(fetchCustomers.rejected, (state, action) => {
+            state.loading.fetchUCustomer = false;
+            state.error.fetchUCustomer = action.error;
         })
       
     }
