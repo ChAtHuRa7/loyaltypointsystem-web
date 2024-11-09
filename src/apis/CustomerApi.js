@@ -16,4 +16,10 @@ export const addPointsToCustomer = async ({customerId, points}) => {
     console.log(customerId, points)
     const res = await axios.post(`${BASE_URL}/${customerId}/points`, {customerId, points})
     return res.data;
+}
+
+export const redeemPointsFromCustomer = async ({customerId, points}) => {
+    console.log(customerId, points)
+    const res = await axios.post(`${BASE_URL}/${customerId}/redeem`, {customerId, points})
+    return res.data;
 } 

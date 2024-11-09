@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createCustomer, getCustomers, addPointsToCustomer } from "../apis/CustomerApi";
+import { createCustomer, getCustomers, addPointsToCustomer, redeemPointsFromCustomer } from "../apis/CustomerApi";
 
 export const addCustomer = createAsyncThunk('customers/add', async (customer) => {
     return await createCustomer(customer);
@@ -11,6 +11,11 @@ export const fetchCustomers = createAsyncThunk('customers/fetch', async () => {
 
 export const addPoints = createAsyncThunk("customers/addPoints", async ({customerId, points}) => {
     await addPointsToCustomer({customerId, points})
+    return {customerId, points}
+})
+
+export const redeemPoints = createAsyncThunk("customers/redeem", async ({customerId, points}) => {
+    await redeemPointsFromCustomer({customerId, points})
     return {customerId, points}
 })
 
@@ -84,6 +89,25 @@ const customerSlice = createSlice({
         .addCase(addPoints.rejected, (state, payload) => {
             state.error.addPoints = payload.error
             state.loading.addPoints = false;
+        })
+
+
+        //redeem points
+        builder
+        .addCase(redeemPoints.pending, (state) => {
+            state.loading.redeemPoints = true;
+            state.error.redeemPoints = null;
+        })
+        .addCase(redeemPoints.fulfilled, (state, action) => {
+            const customer = state.customers.find((customer) => customer.id === action.payload.customerId);
+            if(customer) customer.points -= action.payload.points;
+
+            state.loading.redeemPoints = false;
+            state.error.redeemPoints = null;
+        })
+        .addCase(redeemPoints.rejected, (state, action) => {
+            state.loading.redeemPoints = false;
+            state.error.redeemPoints = action.error;
         })
       
     }

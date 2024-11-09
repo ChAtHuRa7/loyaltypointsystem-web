@@ -22,7 +22,7 @@ export default function CustomerCard({props}) {
 
       <div className='flex justify-between mt-10'>
         <AddPoints props={props}/>
-        {/* <RedeemPoints/> */}
+        <RedeemPoints props={props}/>
       </div>
     </div>
   )
