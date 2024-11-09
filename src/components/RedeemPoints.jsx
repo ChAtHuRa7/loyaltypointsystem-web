@@ -18,7 +18,7 @@ function RedeemPoints({props}) {
   return (
     <div>
       <p className="text-gray-700 font-semibold text-md mb-3">
-        Add Loyalty Points
+        Redeem Loyalty Points
       </p>
       <div>
         <input
