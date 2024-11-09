@@ -1,4 +1,6 @@
 import React from 'react'
+import AddPoints from './AddPoints'
+import RedeemPoints from './RedeemPoints'
 
 export default function CustomerCard({props}) {
   return (
@@ -12,10 +14,15 @@ export default function CustomerCard({props}) {
           <p>{props.address}</p>
         </div>
 
-        <div className='flex flex-col justify-center items-center'>
-          <p className='text-lg font-semibold text-gray-700'>Loyalty Points</p>
-          <p className='text-green-600 text-xl font-bold'>{props.points}</p>
+        <div className='flex flex-col  justify-center items-center gap-4 pr-5'>
+          <p className='text-xl font-semibold text-gray-500'>Loyalty Points</p>
+          <p className='text-green-600 text-2xl font-bold'>{props.points}</p>
         </div>
+      </div>
+
+      <div className='flex justify-between mt-10'>
+        <AddPoints props={props}/>
+        {/* <RedeemPoints/> */}
       </div>
     </div>
   )

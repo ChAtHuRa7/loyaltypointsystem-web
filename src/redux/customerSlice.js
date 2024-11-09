@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createCustomer, getCustomers } from "../apis/CustomerApi";
+import { createCustomer, getCustomers, addPointsToCustomer } from "../apis/CustomerApi";
 
 export const addCustomer = createAsyncThunk('customers/add', async (customer) => {
     return await createCustomer(customer);
@@ -7,6 +7,11 @@ export const addCustomer = createAsyncThunk('customers/add', async (customer) =>
 
 export const fetchCustomers = createAsyncThunk('customers/fetch', async () => {
   return await getCustomers();
+})
+
+export const addPoints = createAsyncThunk("customers/addPoints", async ({customerId, points}) => {
+    await addPointsToCustomer({customerId, points})
+    return {customerId, points}
 })
 
 
@@ -60,6 +65,25 @@ const customerSlice = createSlice({
         .addCase(fetchCustomers.rejected, (state, action) => {
             state.loading.fetchUCustomer = false;
             state.error.fetchUCustomer = action.error;
+        })
+
+
+        //add points
+        builder
+        .addCase(addPoints.pending, (state) => {
+            state.loading.addPoints = true;
+            state.error.addPoints = null;
+        })
+        .addCase(addPoints.fulfilled, (state, action) => {
+            const customer = state.customers.find((customer) => customer.id === action.payload.customerId)
+            if(customer) customer.points += action.payload.points
+            
+            state.loading.addPoints = false;
+            state.error.addPoints = null;
+        })
+        .addCase(addPoints.rejected, (state, payload) => {
+            state.error.addPoints = payload.error
+            state.loading.addPoints = false;
         })
       
     }

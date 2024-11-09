@@ -16,7 +16,7 @@ const Customers = () => {
       <p className="text-gray-700 font-semibold text-lg mb-5">Loyalty Points Dashboard</p>
       <div className="w-full">
         {customers.map((customer) => {
-          return <CustomerCard props={customer}/>;
+          return <CustomerCard key={customer.id} props={customer}/>;
         })}
       </div>
     </div>
