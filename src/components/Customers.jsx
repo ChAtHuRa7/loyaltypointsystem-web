@@ -17,10 +17,19 @@ const Customers = () => {
         Loyalty Points Dashboard
       </p>
       <div className="h-5/6">
-        <div className="no-scrollbar  h-full w-full overflow-auto scroll-smooth">
+        <div className="no-scrollbar h-full w-full overflow-auto scroll-smooth">
           {customers.map((customer) => {
             return <CustomerCard key={customer.id} props={customer} />;
           })}
+          {!loading.fetchCustomers &&
+            error.fetchCustomers == null &&
+            customers.length === 0 && (
+              <div className="w-full h-full flex items-center justify-center">
+                <p className="text-gray-400 font-semibold">
+                  Customers Not found.
+                </p>
+              </div>
+            )}
         </div>
       </div>
     </div>

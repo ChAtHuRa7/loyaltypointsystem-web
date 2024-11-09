@@ -25,7 +25,7 @@ const customerSlice = createSlice({
     initialState: {
         customers: [],
         loading: {
-          fetchUCustomer: false,
+          fetchUCustomer: true,
           addCustomer: false,
           addPoints: false,
           redeemPoints: false,
