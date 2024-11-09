@@ -9,15 +9,19 @@ const Customers = () => {
 
   useEffect(() => {
     dispatch(fetchCustomers());
-  },[])
+  }, []);
 
   return (
     <div className="w-1/2">
-      <p className="text-gray-700 font-semibold text-lg mb-5">Loyalty Points Dashboard</p>
-      <div className="w-full">
-        {customers.map((customer) => {
-          return <CustomerCard key={customer.id} props={customer}/>;
-        })}
+      <p className="text-gray-700 font-semibold text-lg mb-5">
+        Loyalty Points Dashboard
+      </p>
+      <div className="h-5/6">
+        <div className="no-scrollbar  h-full w-full overflow-auto scroll-smooth">
+          {customers.map((customer) => {
+            return <CustomerCard key={customer.id} props={customer} />;
+          })}
+        </div>
       </div>
     </div>
   );
